@@ -1,4 +1,4 @@
-package fork
+package model
 
 type fork struct {
 	numberOfTimesUsed int
