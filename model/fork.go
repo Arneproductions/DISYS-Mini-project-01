@@ -4,14 +4,14 @@ import (
 	"time"
 )
 
-type fork struct {
+type Fork struct {
 	NumberOfTimesUsed int
-	IsFree bool
-	In chan int
-	Out chan int
+	IsFree            bool
+	In                chan int
+	Out               chan int
 }
 
-func (f *fork) run() {
+func (f *Fork) run() {
 	for {
 		f.NumberOfTimesUsed++
 
@@ -19,12 +19,12 @@ func (f *fork) run() {
 	}
 }
 
-func NewFork() fork {
-	f := fork {
+func NewFork() Fork {
+	f := Fork{
 		NumberOfTimesUsed: 0,
-		IsFree: true,
-		In: make(chan int),
-		Out: make(chan int),
+		IsFree:            true,
+		In:                make(chan int),
+		Out:               make(chan int),
 	}
 
 	go f.run()
