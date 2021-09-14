@@ -17,8 +17,7 @@ func main() {
 		}
 
 		fmt.Println("=============")
-
-		time.Sleep(400)
+		time.Sleep(400 * time.Millisecond)
 	}
 }
 
