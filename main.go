@@ -19,13 +19,15 @@ func main() {
 		fmt.Println("=============")
 		time.Sleep(400 * time.Millisecond)
 	}
+
+	time.Sleep(60 * time.Second)
 }
 
 func initForks(amount int) []model.Fork {
 	forks := make([]model.Fork, 0)
 
 	for i := 0; i < amount; i++ {
-		forks = append(forks, model.NewFork())
+		forks = append(forks, model.NewFork(i))
 	}
 
 	return forks
@@ -35,10 +37,10 @@ func initPhils(forks []model.Fork) []model.Philosopher {
 	phils := make([]model.Philosopher, 0)
 
 	for i := 0; i < len(forks); i++ {
-		if i%len(forks) == 0 {
-			phils = append(phils, model.NewPhilosopher(forks[len(forks)-1], forks[i]))
+		if i == 0 {
+			phils = append(phils, model.NewPhilosopher(i, &forks[len(forks)-1], &forks[i]))
 		} else {
-			phils = append(phils, model.NewPhilosopher(forks[len(forks)-1], forks[i]))
+			phils = append(phils, model.NewPhilosopher(i, &forks[i], &forks[i-1]))
 		}
 	}
 
