@@ -12,19 +12,24 @@ func main() {
 	phils := initPhils(forks)
 
 	for {
-		for idx, val := range phils {
-			fmt.Printf("Philosopher %d - %s\n", (idx + 1), val.GetStatus())
+		for _, val := range phils {
+			fmt.Println(val.GetStatus())
 		}
 
+		fmt.Println("==Forks==")
+		for _, val := range forks {
+			fmt.Println(val.GetStatus())
+		}
 		fmt.Println("=============")
-		time.Sleep(400 * time.Millisecond)
+
+	time.Sleep(400 * time.Millisecond)
 	}
 
 	time.Sleep(60 * time.Second)
 }
 
-func initForks(amount int) []model.Fork {
-	forks := make([]model.Fork, 0)
+func initForks(amount int) []*model.Fork {
+	forks := make([]*model.Fork, 0)
 
 	for i := 0; i < amount; i++ {
 		forks = append(forks, model.NewFork(i))
@@ -33,14 +38,14 @@ func initForks(amount int) []model.Fork {
 	return forks
 }
 
-func initPhils(forks []model.Fork) []model.Philosopher {
+func initPhils(forks []*model.Fork) []model.Philosopher {
 	phils := make([]model.Philosopher, 0)
 
 	for i := 0; i < len(forks); i++ {
 		if i == 0 {
-			phils = append(phils, model.NewPhilosopher(i, &forks[len(forks)-1], &forks[i]))
+			phils = append(phils, model.NewPhilosopher(i, forks[len(forks)-1], forks[i]))
 		} else {
-			phils = append(phils, model.NewPhilosopher(i, &forks[i], &forks[i-1]))
+			phils = append(phils, model.NewPhilosopher(i, forks[i], forks[i-1]))
 		}
 	}
 
