@@ -10,42 +10,42 @@ type Fork struct {
 	id                int
 	numberOfTimesUsed int
 	isFree            bool
-	In                chan int
-	Out               chan int
+	in                chan int
+	out               chan int
 }
 
 func (f *Fork) communicate() {
 	for {
-		in := <-f.In
+		in := <-f.in
 
 		switch in {
 		case 0:
-			f.Out <- f.id
+			f.out <- f.id
 		case 1:
-			f.Out <- f.numberOfTimesUsed
+			f.out <- f.numberOfTimesUsed
 		case 2:
 			if f.isFree {
-				f.Out <- 1
+				f.out <- 1
 			} else {
-				f.Out <- 0
+				f.out <- 0
 			}
 		}
 	}
 }
 
 func (f *Fork) GetId() int {
-	f.In <- 0
-	return <- f.Out
+	f.in <- 0
+	return <- f.out
 }
 
 func (f *Fork) GetTimesUsed() int {
-	f.In <- 1
-	return <- f.Out
+	f.in <- 1
+	return <- f.out
 }
 
 func (f *Fork) GetFree() bool {
-	f.In <- 2
-	switch i := <-f.Out; i {
+	f.in <- 2
+	switch i := <-f.out; i {
 	default:
 		fallthrough
 	case 0:
@@ -75,8 +75,8 @@ func NewFork(id int) *Fork {
 		id:                id,
 		numberOfTimesUsed: 0,
 		isFree:            false,
-		In:                make(chan int),
-		Out:               make(chan int),
+		in:                make(chan int),
+		out:               make(chan int),
 	}
 	
 	go f.communicate()

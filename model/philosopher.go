@@ -11,24 +11,24 @@ type Philosopher struct {
 	left       *Fork
 	eating     bool
 	timesEaten int
-	In         chan int
-	Out        chan int
+	in         chan int
+	out        chan int
 }
 
 func (p *Philosopher) communicate() {
 	for {
-		in := <-p.In
+		in := <-p.in
 
 		switch in {
 		case 0:
-			p.Out <- p.id
+			p.out <- p.id
 		case 1:
-			p.Out <- p.timesEaten
+			p.out <- p.timesEaten
 		case 2:
 			if p.eating {
-				p.Out <- 1
+				p.out <- 1
 			} else {
-				p.Out <- 0
+				p.out <- 0
 			}
 		}
 	}
@@ -50,18 +50,18 @@ func (p *Philosopher) eat() {
 }
 
 func (p *Philosopher) GetId() int {
-	p.In <- 0
-	return <- p.Out
+	p.in <- 0
+	return <- p.out
 }
 
 func (p *Philosopher) GetTimesEaten() int {
-	p.In <- 1
-	return <- p.Out
+	p.in <- 1
+	return <- p.out
 }
 
 func (p *Philosopher) GetEating() bool {
-	p.In <- 2
-	switch i := <-p.Out; i {
+	p.in <- 2
+	switch i := <-p.out; i {
 	default:
 		fallthrough
 	case 0:
@@ -82,8 +82,8 @@ func NewPhilosopher(id int, right *Fork, left *Fork) Philosopher {
 		left:       left,
 		eating:     false,
 		timesEaten: 0,
-		In:         make(chan int),
-		Out:        make(chan int),
+		in:         make(chan int),
+		out:        make(chan int),
 	}
 
 	go p.eat()
