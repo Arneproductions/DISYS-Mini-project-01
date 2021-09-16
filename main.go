@@ -24,8 +24,6 @@ func main() {
 
 	time.Sleep(400 * time.Millisecond)
 	}
-
-	time.Sleep(60 * time.Second)
 }
 
 func initForks(amount int) []*model.Fork {
