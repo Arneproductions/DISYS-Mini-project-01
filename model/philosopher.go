@@ -40,7 +40,7 @@ func (p *Philosopher) eat() {
 		p.right.Lock()
 
 		p.eating = true
-		time.Sleep(1 * time.Second)
+		time.Sleep(5 * time.Millisecond)
 		p.timesEaten++
 		p.eating = false
 
